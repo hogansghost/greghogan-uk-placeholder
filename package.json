@@ -18,5 +18,8 @@
     "gulp-sass": "^4.0.1",
     "gulp-sass-inheritance": "^1.1.0",
     "gulp-sourcemaps": "^2.6.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
   }
 }
