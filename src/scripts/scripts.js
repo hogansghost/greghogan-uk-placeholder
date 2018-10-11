@@ -4,13 +4,15 @@
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
     randomiseTheme: function() {
-      let randNum = this.randomNum(1, 4);
+      let randNum = this.randomNum(0, 6);
 
+      // Call select theme method, supplying the randomly generated theme val.
       this.selectTheme(randNum);
     },
     selectTheme: function(theme) {
       let themeClass = 'theme-one';
 
+      // Convert theme value to string class-name.
       switch(theme) {
         case 1:
           themeClass = 'theme-one';
@@ -24,12 +26,35 @@
         case 4:
           themeClass = 'theme-four';
           break;
+        case 5:
+          themeClass = 'theme-five';
+          break;
+        case 6:
+          themeClass = 'theme-six';
+          break;
+        default:
+          themeClass = '';
+          break;
       }
       
+      // Call apply theme method.
       this.addTheme(themeClass);
     },
     addTheme: function(themeClass) {
-      document.querySelector('html').classList.add(themeClass);
+      let htmlClassList = document.querySelector('html').classList;
+      let htmlClassArray = [... htmlClassList];
+
+      // Remove any theme classes already applied.
+      let themesToRemove = htmlClassArray.slice(' ').filter((className) => className.includes('theme-'));
+
+      themesToRemove.forEach((className) => {
+        htmlClassList.remove(className);
+      });
+
+      // Check if theme "exists" and apply respectfully.
+      if( themeClass !== '' ) {
+        htmlClassList.add(themeClass);
+      }
     },
     init: function() {
       this.randomiseTheme();
@@ -125,11 +150,9 @@
 
     function setQuoteDateString() {
       let quoteDate = new Date(quoteTime);
-      let dateOutput = '';
-
-      dateOutputDate = getDateString(quoteDate.getUTCDate());
-      dateOutputMonth = getMonthString(quoteDate.getUTCMonth());
-      dateOutputYear = quoteDate.getUTCFullYear();
+      let dateOutputDate = getDateString(quoteDate.getUTCDate());
+      let dateOutputMonth = getMonthString(quoteDate.getUTCMonth());
+      let dateOutputYear = quoteDate.getUTCFullYear();
 
       document.querySelector('.js__quote-date').innerHTML = `${dateOutputDate} ${dateOutputMonth} ${dateOutputYear}`;
     }

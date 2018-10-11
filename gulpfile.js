@@ -48,7 +48,9 @@ gulp.task('imagemin', [], function() {
 
 // Copy src HTML files to dist.
 gulp.task('compile-html', [], function() {
-  gulp.src(['index.html', '404.html'], {
+  console.log('Cloning files, HTML, manifest.json, etc.');
+
+  gulp.src(['*'], {
     cwd: bases.src
   })
   .pipe(gulp.dest(bases.dist));
@@ -107,15 +109,23 @@ gulp.task('default', ['clean', 'compile-favicon', 'compile-fonts', 'imagemin', '
 gulp.task('watch', ['compile-favicon', 'compile-fonts', 'imagemin', 'compile-sass', 'compile-js', 'compile-html'], function() {
   gulp.watch(bases.src + 'styles/**/*.scss', ['compile-sass']);
   gulp.watch(bases.src + 'scripts/**/*.js', ['compile-js']);
-  gulp.watch(bases.src + '*.html', ['compile-html']);
+  gulp.watch(bases.src + '*', ['compile-html']);
 });
 
 gulp.task('serve', ['watch'], function() {
-  const server = liveserver.static(bases.dist, 4210);
+  const server = liveserver.static(bases.dist, 4211);
   
   server.start();
 
-  gulp.watch([bases.src + '/**/*.*'], function (file) {
-      server.notify.apply(server, [file]);
+  gulp.watch([bases.src + '/**/*'], function (file) {
+    console.log('Reloading...');
+
+    server.notify.apply(server, [file]);
+
+    // doesnt work - comes from doc
+    // server.notify.apply(server, [file]);
+
+    // works
+    // server.start.bind(server)();
   });
 });

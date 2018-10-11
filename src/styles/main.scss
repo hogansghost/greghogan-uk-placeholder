@@ -53,6 +53,8 @@ html, body {
 
 html {
   background-color: $theme-base;
+  -webkit-transition: background-color 400ms;
+  transition: background-color 400ms;
 
   &.theme {
     &-one {
@@ -69,6 +71,10 @@ html {
 
     &-four {
       background-color: $theme-four;
+    }
+
+    &-five {
+      background-color: $theme-five;
     }
   }
 }
@@ -151,6 +157,8 @@ p {
 
 /* Inner copy for main container */
 .intro-copy {
+  $_intro-copy: &;
+
   -webkit-animation: fadeSlideIntro 1000ms both;
   animation: fadeSlideIntro 1000ms both;
 
@@ -199,6 +207,18 @@ p {
       width: 700px;
       max-width: 100%;
       text-align: left;
+
+      #{$_intro-copy}--error & {
+        text-align: center;
+
+        h1 {
+          font-size: 5em;
+        }
+
+        p {
+          line-height: 2em;
+        }
+      }
 
       @media screen and ( max-width: 768px ) {
         text-align: center;
@@ -251,7 +271,7 @@ p {
       &__amount {
         font-size: 2em;
         font-family: "Avenir Next LT Pro Bold", "Helvetica", "Arial", sans-serif;
-        opacity: 0.65;
+        opacity: 0.90;
       }
 
       &__title {
