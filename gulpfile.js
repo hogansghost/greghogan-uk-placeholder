@@ -104,7 +104,7 @@ gulp.task('compile-js', [], function() {
  * Build and serve tasks.
  */
 
-gulp.task('default', ['clean', 'compile-favicon', 'compile-fonts', 'imagemin', 'compile-sass', 'compile-js', 'compile-html']);
+gulp.task('default', gulp.series('clean', 'compile-favicon', 'compile-fonts', 'imagemin', 'compile-sass', 'compile-js', 'compile-html']);
 
 gulp.task('watch', ['compile-favicon', 'compile-fonts', 'imagemin', 'compile-sass', 'compile-js', 'compile-html'], function() {
   gulp.watch(bases.src + 'styles/**/*.scss', ['compile-sass']);
@@ -112,9 +112,9 @@ gulp.task('watch', ['compile-favicon', 'compile-fonts', 'imagemin', 'compile-sas
   gulp.watch(bases.src + '*', ['compile-html']);
 });
 
-gulp.task('serve', ['watch'], function() {
+gulp.task('serve', gulp.series('watch', function() {
   const server = liveserver.static(bases.dist, 4211);
-  
+
   server.start();
 
   gulp.watch([bases.src + '/**/*'], function (file) {
@@ -128,4 +128,4 @@ gulp.task('serve', ['watch'], function() {
     // works
     // server.start.bind(server)();
   });
-});
+}));
